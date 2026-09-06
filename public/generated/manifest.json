@@ -1,0 +1,58 @@
+[
+  {
+    "id": "wan22_1788685560197_1002",
+    "type": "video",
+    "url": "/generated/wan22_1788685560197_1002.mp4",
+    "thumbnailUrl": "/generated/wan22_1788685560197_1002_thumb.png",
+    "prompt": "lightning fast neon rain test",
+    "createdAt": "2026-09-06T09:06:18.636Z",
+    "params": {
+      "model": "Wan 2.2 I2V Lightning",
+      "resolution": "832x480 (480p)",
+      "aspectRatio": "16:9",
+      "steps": 8,
+      "motionStrength": 5,
+      "cfg": 5,
+      "seed": 255013,
+      "lora": "None",
+      "duration": "4s"
+    },
+    "fileSizeBytes": 13760405
+  },
+  {
+    "id": "qwen_1788685567221_3654",
+    "type": "image",
+    "url": "/generated/qwen_1788685567221_3654.png",
+    "thumbnailUrl": "/generated/qwen_1788685567221_3654.png",
+    "prompt": "cyberpunk portrait",
+    "createdAt": "2026-09-06T09:06:07.641Z",
+    "params": {
+      "model": "Qwen-Image Edit Plus",
+      "dimensions": "1280x720",
+      "aspectRatio": "16:9",
+      "style": "Cyberpunk Neon",
+      "seed": 413711
+    },
+    "fileSizeBytes": 112498
+  },
+  {
+    "id": "wan22_1788685526338_3615",
+    "type": "video",
+    "url": "/generated/wan22_1788685526338_3615.mp4",
+    "thumbnailUrl": "/generated/wan22_1788685526338_3615_thumb.png",
+    "prompt": "cyberpunk neon test video",
+    "createdAt": "2026-09-06T09:05:53.960Z",
+    "params": {
+      "model": "Wan 2.2 I2V Lightning",
+      "resolution": "832x480 (480p)",
+      "aspectRatio": "16:9",
+      "steps": 8,
+      "motionStrength": 5,
+      "cfg": 5,
+      "seed": 1450495,
+      "lora": "None",
+      "duration": "4s"
+    },
+    "fileSizeBytes": 3549849
+  }
+]

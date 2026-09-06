@@ -1,0 +1,88 @@
+# =============================================================================
+# Newgen — Python application dependencies
+# =============================================================================
+# CRITICAL: torch / torchvision / torchaudio are NOT listed here.
+# They are provided by the system Python environment (torch 2.8.0.dev+cu128,
+# CUDA 12.8) and are made available to the app venv via PYTHONPATH at runtime
+# (see run_app.sh / setup.sh).  Installing them here would download and
+# overwrite the existing dev builds, breaking CUDA 12.8 compatibility.
+#
+# numpy: the system has 2.1.2.  We allow >=1.26,<2.2 so the venv pip
+# resolves whatever is compatible without downgrading the system copy.
+# (The app venv gets its own numpy inside .app-venv; the system numpy
+# is untouched either way.)
+# =============================================================================
+
+# --- HuggingFace stack -------------------------------------------------------
+# huggingface-hub must stay <1.0 for transformers<5.
+# gradio 4.43.0 imports HfFolder which was removed in huggingface-hub>=0.26.
+# setup.sh patches gradio/oauth.py with a shim after install so this is safe.
+huggingface-hub>=0.34.0,<1.0
+
+# transformers PINNED EXACTLY — do not turn this back into a range.
+# Needs >=4.52.0 for Qwen-Image-Edit-2511's nested text_config format
+# (Qwen2_5_VLConfig.sub_configs lacked "text_config" before 4.52.0, so the
+# nested dict stayed raw and GenerationConfig.from_model_config() crashed
+# calling .to_dict() on it).
+# transformers 4.57.6 was tested here and BREAKS diffusers' Wan pipeline:
+# its lazy-import machinery fails internally and misreports it as
+# "cannot import name 'CLIPImageProcessor' from transformers", even though
+# CLIPImageProcessor itself is unaffected — the real failure is elsewhere.
+# 4.55.4 is verified working with diffusers 0.37.1's Wan pipeline and with
+# Qwen-Image-Edit-2511's config format. An open range (">=4.52.0,<5.0")
+# will silently pick up a newer, untested transformers release the next
+# time this venv is rebuilt and reintroduce this exact crash.
+transformers==4.55.4
+
+# WanImageToVideoPipeline (diffusers.pipelines.wan) was added in 0.34.0.
+# 0.33.x does not have it and will crash at import time.
+# PINNED EXACTLY to the version verified against transformers==4.55.4 above.
+# A range here can independently resolve to a diffusers release built
+# against a different transformers API and break the same way.
+diffusers==0.37.1
+
+safetensors>=0.4.0
+
+# numpy: allow >=1.26 and <2.2. This is compatible with torch 2.8 dev and
+# avoids constraining the system install. The venv will install its own copy.
+numpy>=1.26,<2.2
+
+# --- Model dependencies ------------------------------------------------------
+accelerate
+sentencepiece
+peft
+# torchao / torchvision / torch / torchaudio: NOT listed here.
+# All are provided by the system Python stack (torch 2.8 dev+cu128) and made
+# available to the venv via PYTHONPATH at runtime (see run_app.sh / autorun.sh).
+# Installing any of them here would pull in a mismatched torch build as a
+# dependency, overwriting the system dev build and breaking CUDA compatibility.
+# setup.sh explicitly uninstalls any stray copies after this file runs.
+
+# --- Image/Video processing --------------------------------------------------
+opencv-python
+imageio
+imageio-ffmpeg
+Pillow
+# rembg installed separately in setup.sh (tries gpu variant first)
+
+# --- UI and utilities --------------------------------------------------------
+# gradio 4.43.0: supports js= on event handlers and gr.on(), avoids 4.44.1
+# jinja2 bug.  gradio-client must be pinned to exactly what gradio 4.43.0
+# requires — a newer gradio-client passes bool schemas (from pydantic v2
+# additionalProperties:false) into get_type() which expects a dict, crashing
+# with "argument of type 'bool' is not iterable".
+gradio==4.43.0
+gradio-client==1.3.0
+
+# pydantic>=2.10 renamed is_stdlib_dataclass->is_builtin_dataclass, breaking
+# gradio 4.43.0's component schema generation with ImportError at startup.
+pydantic>=2.0,<2.10
+
+ftfy
+tqdm
+typing-extensions
+requests
+cryptography
+
+# av: used directly by app.py for video frame extraction/encoding.
+av

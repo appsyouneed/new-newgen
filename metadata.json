@@ -1,0 +1,6 @@
+{
+  "name": "Live Terminal Console",
+  "description": "Live terminal streaming output, system diagnostics, and NewGen Studio fast AI video & image generation suite.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
